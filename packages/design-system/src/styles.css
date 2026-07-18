@@ -1,0 +1,153 @@
+:root {
+  --mare-color-brand: #02957e;
+  --mare-color-brand-contrast: #f3f8fa;
+  --mare-color-surface: #ffffff;
+  --mare-color-surface-muted: #f3f8fa;
+  --mare-color-border: #d7e0e3;
+  --mare-color-text: #111a1d;
+  --mare-color-text-muted: #707d81;
+  --mare-alias-primary-bg-base: #02957e;
+  --mare-alias-primary-text-on-base: #f3f8fa;
+  --mare-alias-primary-text-on-subtle: #00453a;
+  --mare-alias-primary-border: #02957e;
+  --mare-alias-interactive-state-layer-inverse: #f3f8fa;
+  --mare-alias-interactive-state-layer-base: #707d81;
+  --mare-alias-interactive-disabled-bg: #d7e0e3;
+  --mare-alias-interactive-disabled-text: #707d81;
+  --mare-opacity-state-hover: 0.18;
+  --mare-opacity-state-pressed: 0.28;
+  --mare-radius-sm: 4px;
+  --mare-radius-md: 8px;
+  --mare-space-1: 0.25rem;
+  --mare-space-2: 0.5rem;
+  --mare-space-3: 0.75rem;
+  --mare-space-4: 1rem;
+  --mare-space-6: 1.5rem;
+  --mare-font-family: "DM Sans", Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --mare-font-size-md: 1rem;
+  --mare-font-weight-bold: 700;
+  --mare-line-height-md: 1.25rem;
+  --mare-button-height: 2.5rem;
+  --mare-button-padding-x: 1rem;
+  --mare-button-padding-y: 0.75rem;
+  --mare-button-gap: 0.5rem;
+  --mare-button-icon-size: 1rem;
+  --mare-button-focus-gap: 3px;
+  --mare-button-focus-stroke: 2px;
+}
+
+.mare-theme {
+  background: var(--mare-color-surface);
+  color: var(--mare-color-text);
+  font-family: var(--mare-font-family);
+}
+
+.mare-button {
+  align-items: center;
+  appearance: none;
+  border: 1px solid transparent;
+  border-radius: var(--mare-radius-md);
+  cursor: pointer;
+  display: inline-flex;
+  font-family: var(--mare-font-family);
+  font-size: var(--mare-font-size-md);
+  font-weight: var(--mare-font-weight-bold);
+  gap: var(--mare-button-gap);
+  justify-content: center;
+  line-height: var(--mare-line-height-md);
+  min-height: var(--mare-button-height);
+  padding: var(--mare-button-padding-y) var(--mare-button-padding-x);
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.mare-button::after {
+  border-radius: inherit;
+  content: "";
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+}
+
+.mare-button:focus {
+  outline: none;
+}
+
+.mare-button[data-focus-visible],
+.mare-button:focus-visible {
+  outline: var(--mare-button-focus-stroke) solid var(--mare-alias-primary-border);
+  outline-offset: var(--mare-button-focus-gap);
+}
+
+.mare-button[data-disabled],
+.mare-button[data-pending],
+.mare-button:disabled {
+  cursor: not-allowed;
+}
+
+.mare-button__icon {
+  display: inline-flex;
+  flex: 0 0 auto;
+  height: var(--mare-button-icon-size);
+  width: var(--mare-button-icon-size);
+}
+
+.mare-button__icon > svg {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+.mare-button--primary {
+  background: var(--mare-alias-primary-bg-base);
+  color: var(--mare-alias-primary-text-on-base);
+}
+
+.mare-button--primary::after {
+  background: var(--mare-alias-interactive-state-layer-inverse);
+}
+
+.mare-button--primary[data-hovered]:not([data-disabled]):not([data-pending])::after,
+.mare-button--primary:hover:not(:disabled):not([data-disabled]):not([data-pending])::after {
+  opacity: var(--mare-opacity-state-hover);
+}
+
+.mare-button--primary[data-pressed]:not([data-disabled]):not([data-pending])::after,
+.mare-button--primary:active:not(:disabled):not([data-disabled]):not([data-pending])::after {
+  opacity: var(--mare-opacity-state-pressed);
+}
+
+.mare-button--primary[data-disabled],
+.mare-button--primary:disabled {
+  background: var(--mare-alias-interactive-disabled-bg);
+  color: var(--mare-alias-interactive-disabled-text);
+}
+
+.mare-button--secondary {
+  background: transparent;
+  border-color: var(--mare-alias-primary-border);
+  color: var(--mare-alias-primary-text-on-subtle);
+}
+
+.mare-button--secondary::after {
+  background: var(--mare-alias-interactive-state-layer-base);
+}
+
+.mare-button--secondary[data-hovered]:not([data-disabled]):not([data-pending])::after,
+.mare-button--secondary:hover:not(:disabled):not([data-disabled]):not([data-pending])::after {
+  opacity: var(--mare-opacity-state-hover);
+}
+
+.mare-button--secondary[data-pressed]:not([data-disabled]):not([data-pending])::after,
+.mare-button--secondary:active:not(:disabled):not([data-disabled]):not([data-pending])::after {
+  opacity: var(--mare-opacity-state-pressed);
+}
+
+.mare-button--secondary[data-disabled],
+.mare-button--secondary:disabled {
+  border-color: var(--mare-alias-interactive-disabled-bg);
+  color: var(--mare-alias-interactive-disabled-text);
+}

@@ -1,0 +1,30 @@
+{
+  "name": "@mare/docs",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "HOME=../../.cache/storybook-home STORYBOOK_DISABLE_TELEMETRY=1 storybook build --disable-telemetry",
+    "clean": "rm -rf storybook-static .turbo",
+    "dev": "HOME=../../.cache/storybook-home STORYBOOK_DISABLE_TELEMETRY=1 storybook dev -p 6006 --disable-telemetry",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@mare/design-system": "workspace:*",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "devDependencies": {
+    "@storybook/addon-designs": "^8.0.0",
+    "@storybook/addon-essentials": "^8.6.14",
+    "@storybook/react": "^8.6.14",
+    "@storybook/react-vite": "^8.6.14",
+    "@types/node": "^24.0.10",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
+    "@vitejs/plugin-react": "^4.6.0",
+    "storybook": "^8.6.14",
+    "typescript": "^5.8.3",
+    "vite": "^6.3.5"
+  }
+}

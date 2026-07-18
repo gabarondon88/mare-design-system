@@ -24,3 +24,4 @@ El paquete de design system expone:
 - `@mare/design-system/styles.css`: tokens CSS base.
 
 La app de documentación consume el paquete mediante `workspace:*`.
+

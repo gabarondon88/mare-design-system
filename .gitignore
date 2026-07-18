@@ -1,0 +1,29 @@
+node_modules
+.pnpm-store
+.turbo
+.cache
+dist
+storybook-static
+.DS_Store
+*.log
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.cer
+*.der
+id_rsa
+id_ed25519
+*.local
+
+# Tooling and deployment state
+.vercel
+.netlify
+.wrangler
+.openai
