@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "HOME=../../.cache/storybook-home STORYBOOK_DISABLE_TELEMETRY=1 storybook build --disable-telemetry",
+    "build": "HOME=../../.cache/storybook-home NODE_OPTIONS=--max-old-space-size=4096 STORYBOOK_DISABLE_TELEMETRY=1 storybook build --disable-telemetry",
     "clean": "rm -rf storybook-static .turbo",
     "dev": "HOME=../../.cache/storybook-home STORYBOOK_DISABLE_TELEMETRY=1 storybook dev -p 6006 --disable-telemetry",
     "typecheck": "tsc --noEmit"
