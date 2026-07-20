@@ -444,6 +444,90 @@ function ContractPanel({ args }: { args: ButtonStoryArgs }) {
   );
 }
 
+function ButtonDocsPage() {
+  return (
+    <Layout>
+      <h1 style={{ ...headingStyle, fontSize: "2.75rem" }}>Button</h1>
+      <p style={{ ...bodyTextStyle, fontSize: "1.05rem", maxWidth: "720px" }}>
+        Button triggers an action on the current page, such as saving,
+        submitting, confirming, or deleting, while preserving a consistent
+        interactive target and visual hierarchy.
+      </p>
+
+      <Section title="Design source">
+        <p style={bodyTextStyle}>
+          Figma is the source of truth for Button. Review the{" "}
+          <a
+            href="https://www.figma.com/design/BvFw7AfXAdkKDIwgaWhl4L/UI-Kit---MAR%C3%89?node-id=58-635"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            MARÉ UI Kit Button documentation
+          </a>{" "}
+          before changing variants, states, slots, tokens, or usage guidance.
+        </p>
+      </Section>
+
+      <Section title="Variants and slots">
+        <p style={bodyTextStyle}>
+          The implemented visual variants are <code>primary</code> and{" "}
+          <code>secondary</code>. Figma models Button content with slots:
+          <code> label</code>, <code>icon-label</code>,{" "}
+          <code>label-icon</code>, and <code>icon</code>. In React, those slots
+          map to <code>children</code>, <code>icon</code>, and{" "}
+          <code>iconPosition</code>; they are not separate Figma booleans.
+        </p>
+      </Section>
+
+      <Section title="Usage rules">
+        <ul style={bodyTextStyle}>
+          <li>Use Button for actions that affect the current view or data.</li>
+          <li>Use one primary button for the main action in a view, form, or dialog.</li>
+          <li>Use secondary buttons for supporting actions with lower emphasis.</li>
+          <li>Use Link, not Button, when the user is navigating to another page.</li>
+          <li>Do not use Button as a decorative element or generic container.</li>
+        </ul>
+      </Section>
+
+      <Section title="Edge cases">
+        <ul style={bodyTextStyle}>
+          <li>Icon-only buttons must always provide an accessible label.</li>
+          <li>Disabled actions should have surrounding context explaining why the action is unavailable.</li>
+          <li>Loading maps to React Aria pending behavior, but the spinner visual is still pending Figma definition.</li>
+          <li>Long labels should stay concise; avoid vague copy like OK, Yes, or Click here.</li>
+        </ul>
+      </Section>
+
+      <Section title="Accessibility">
+        <ul style={bodyTextStyle}>
+          <li>Built on React Aria Components Button.</li>
+          <li>Uses native button semantics and defaults to <code>type="button"</code>.</li>
+          <li>Maps disabled state to React Aria <code>isDisabled</code>.</li>
+          <li>Maps loading state to React Aria <code>isPending</code> and <code>aria-busy</code>.</li>
+          <li>Uses <code>data-focus-visible</code> with a native <code>:focus-visible</code> fallback.</li>
+        </ul>
+      </Section>
+
+      <Section title="Usage example">
+        <pre
+          style={{
+            background: "var(--mare-color-surface-muted)",
+            borderRadius: "var(--mare-radius-md)",
+            color: "var(--mare-color-text)",
+            margin: 0,
+            overflowX: "auto",
+            padding: "var(--mare-space-4)"
+          }}
+        >{`import { Button } from "@mare/design-system";
+
+export function SaveProfileAction() {
+  return <Button>Save changes</Button>;
+}`}</pre>
+      </Section>
+    </Layout>
+  );
+}
+
 function VariantsPage() {
   return (
     <Layout>
@@ -648,7 +732,8 @@ const meta: Meta<typeof StoryButton> = {
       description: {
         component:
           "Figma-aligned Button documentation. Source: UI Kit - MARE, page `58:635`, component set `569:370`, specs `702:4078`, usage guide `703:1445`."
-      }
+      },
+      page: ButtonDocsPage
     },
     layout: "fullscreen"
   },
