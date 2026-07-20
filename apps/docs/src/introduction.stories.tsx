@@ -44,10 +44,32 @@ export const Foundation: Story = {
             Maré Design System
           </p>
           <h1 style={{ margin: "var(--mare-space-2) 0", fontSize: "2rem" }}>
-            Base de componentes React
+           🌊 Maré — Starter Design System
           </h1>
           <p style={{ margin: 0, color: "var(--mare-color-text-muted)" }}>
-            Esta historia valida que Storybook consume el paquete del design system desde el workspace.
+           
+
+Maré is a practical starter design system for building consistent, scalable interfaces without reinventing the wheel.
+
+This Storybook brings together Maré’s foundations and UI components in one place. Explore component variants, interaction states, usage guidelines, and accessibility considerations as the system continues to grow.
+
+Built with design tokens, flexible components, and scalability in mind, Maré helps teams move faster while maintaining a cohesive visual language.
+
+🌊 About Maré
+
+Maré was born from a love for components, color, and systems that feel clear, useful, and easy to maintain.
+
+Its name is inspired by the sea, an influence reflected throughout the color palette, shapes, and visual language of the system.
+
+Storybook serves as the living documentation for Maré, connecting design decisions with their implementation and making components easier to explore, test, and reuse.
+
+🚧 Work in progress
+
+Maré is an evolving design system.
+
+New components, variants, guidelines, and accessibility documentation are being added regularly. Existing components may also be refined as the system becomes more consistent and robust.
+
+If something changes, it is intentional — Maré is continuously improving.
           </p>
         </section>
       </main>
