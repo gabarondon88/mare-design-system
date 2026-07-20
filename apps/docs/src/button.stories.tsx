@@ -357,15 +357,9 @@ function OverviewPage() {
         target and visual hierarchy.
       </p>
 
-      <Section title="Description / Purpose">
-        <p>
-          Figma source: <code>UI Kit - MARE</code>, page{" "}
-          <code>58:635 Button & links</code>, component set{" "}
-          <code>{buttonContract.figma.componentSetNodeId}</code>, specs{" "}
-          <code>{buttonContract.figma.specsNodeId}</code>, usage guide{" "}
-          <code>{buttonContract.figma.usageGuideNodeId}</code>.
-        </p>
-      </Section>
+      <Section title="Design guidelines">
+        <p> For more information about the Button component, including its design specifications and usage guidelines, visit the{" "} <a href="https://www.figma.com/design/BvFw7AfXAdkKDIwgaWhl4L/UI-Kit---MAR%C3%89?node-id=58-635" target="_blank" rel="noopener noreferrer" > MARÉ UI Kit in Figma </a> . </p>
+        </Section>
 
       <Section title="Variants & States">
         <p>
@@ -378,10 +372,11 @@ function OverviewPage() {
 
       <Section title="Usage rules">
         <ul>
-          <li>Use for actions on the current page: save, submit, delete.</li>
-          <li>Use one primary button per view.</li>
-          <li>Use Link instead when navigating to another page.</li>
-          <li>Avoid vague labels like OK, Yes, or Click here.</li>
+          <li>✅ To trigger an action on the current page (save, submit, delete).</li>
+          <li>✅ As the primary call to action in a form or dialog</li>
+          <li>✅ When the action changes application state</li>
+          <li>🚫 To navigate to another page — use a Link instead </li>
+          <li>🚫 As a decorative element or container</li>
         </ul>
       </Section>
 
@@ -427,12 +422,6 @@ export function SaveProfileAction() {
         </p>
       </Section>
 
-      <Section title="References">
-        <p>
-          Figma is authoritative. External systems are not currently used to
-          override Maré Button decisions.
-        </p>
-      </Section>
     </Layout>
   );
 }
