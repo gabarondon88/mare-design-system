@@ -54,17 +54,17 @@ Maré is a practical starter design system for building consistent, scalable int
 This Storybook brings together Maré’s foundations and UI components in one place. Explore component variants, interaction states, usage guidelines, and accessibility considerations as the system continues to grow.
 
 Built with design tokens, flexible components, and scalability in mind, Maré helps teams move faster while maintaining a cohesive visual language.
-
+<br> </br>
 🌊 About Maré
-
+<br> </br>
 Maré was born from a love for components, color, and systems that feel clear, useful, and easy to maintain.
 
 Its name is inspired by the sea, an influence reflected throughout the color palette, shapes, and visual language of the system.
 
 Storybook serves as the living documentation for Maré, connecting design decisions with their implementation and making components easier to explore, test, and reuse.
-
+<br> </br>
 🚧 Work in progress
-
+<br> </br>
 Maré is an evolving design system.
 
 New components, variants, guidelines, and accessibility documentation are being added regularly. Existing components may also be refined as the system becomes more consistent and robust.
