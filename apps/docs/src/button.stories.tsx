@@ -8,9 +8,22 @@ const figmaBaseUrl =
 
 const figmaButtonNodes = {
   componentSet: `${figmaBaseUrl}?node-id=569-370`,
+  slots: `${figmaBaseUrl}?node-id=588-1649`,
   specs: `${figmaBaseUrl}?node-id=702-4078`,
   tokens: `${figmaBaseUrl}?node-id=702-4275`
 } as const;
+
+const headingStyle = {
+  color: "var(--mare-color-text)",
+  letterSpacing: 0,
+  margin: 0
+} satisfies CSSProperties;
+
+const bodyTextStyle = {
+  color: "var(--mare-color-text-muted)",
+  lineHeight: 1.6,
+  margin: "var(--mare-space-2) 0 0"
+} satisfies CSSProperties;
 
 const sectionStyle = {
   borderTop: "1px solid var(--mare-color-border)",
@@ -25,11 +38,11 @@ const tableStyle = {
 
 type ButtonStoryArgs = {
   children: string;
+  contentKind: (typeof buttonContract.contentKinds)[number];
   disabled: boolean;
   iconPosition: "start" | "end";
   isLoading: boolean;
   loadingLabel?: string;
-  showIcon: boolean;
   variant: "primary" | "secondary";
 };
 
@@ -167,13 +180,40 @@ const variants = [
   }
 ];
 
+const contentKinds = [
+  {
+    kind: "label",
+    label: "Label",
+    description: "Text only"
+  },
+  {
+    kind: "icon-label",
+    label: "Label",
+    description: "Icon before label"
+  },
+  {
+    kind: "label-icon",
+    label: "Label",
+    description: "Label before icon"
+  },
+  {
+    kind: "icon",
+    label: "Icon action",
+    description: "Icon only"
+  }
+] as const satisfies Array<{
+  kind: (typeof buttonContract.contentKinds)[number];
+  label: string;
+  description: string;
+}>;
+
 const defaultArgs: ButtonStoryArgs = {
   children: "Save changes",
+  contentKind: "label",
   disabled: false,
   iconPosition: "start",
   isLoading: false,
   loadingLabel: "Saving...",
-  showIcon: false,
   variant: buttonContract.defaults.variant
 };
 
@@ -184,7 +224,7 @@ function Layout({ children }: { children: ReactNode }) {
         style={{
           color: "var(--mare-color-text)",
           fontFamily: "var(--mare-font-family)",
-          maxWidth: "960px",
+          maxWidth: "1040px",
           padding: "var(--mare-space-6)"
         }}
       >
@@ -210,11 +250,30 @@ function InlineIcon() {
 
 function StoryButton({
   children,
-  showIcon,
+  contentKind,
   ...args
 }: ButtonStoryArgs) {
+  const hasIcon = contentKind !== "label";
+  const hasLabel = contentKind !== "icon";
+  const resolvedIconPosition =
+    contentKind === "label-icon" ? "end" : args.iconPosition;
+
+  if (!hasLabel) {
+    return (
+      <Button
+        aria-label={children || "Icon button"}
+        icon={<InlineIcon />}
+        {...args}
+      />
+    );
+  }
+
   return (
-    <Button icon={showIcon ? <InlineIcon /> : undefined} {...args}>
+    <Button
+      icon={hasIcon ? <InlineIcon /> : undefined}
+      iconPosition={resolvedIconPosition}
+      {...args}
+    >
       {children}
     </Button>
   );
@@ -229,7 +288,13 @@ function Section({
 }) {
   return (
     <section style={sectionStyle}>
-      <h2 style={{ fontSize: "1.125rem", margin: "0 0 var(--mare-space-3)" }}>
+      <h2
+        style={{
+          ...headingStyle,
+          fontSize: "1.35rem",
+          marginBottom: "var(--mare-space-3)"
+        }}
+      >
         {title}
       </h2>
       {children}
@@ -265,6 +330,7 @@ function Td({ children }: { children: ReactNode }) {
     <td
       style={{
         borderBottom: "1px solid var(--mare-color-border)",
+        color: "var(--mare-color-text)",
         padding: "0.75rem",
         verticalAlign: "top"
       }}
@@ -304,12 +370,19 @@ function TokenSwatch({ value }: { value: string }) {
 }
 
 function ContractPanel({ args }: { args: ButtonStoryArgs }) {
+  const hasIcon = args.contentKind !== "label";
+  const hasLabel = args.contentKind !== "icon";
+  const resolvedIconPosition =
+    args.contentKind === "label-icon" ? "end" : args.iconPosition;
   const resolvedProps = [
     ["variant", args.variant],
+    ["contentKind", args.contentKind],
+    ["children", hasLabel ? args.children : "undefined"],
     ["disabled -> isDisabled", String(args.disabled)],
     ["isLoading -> isPending", String(args.isLoading)],
-    ["icon", args.showIcon ? "ReactNode" : "undefined"],
-    ["iconPosition", args.iconPosition],
+    ["icon", hasIcon ? "ReactNode" : "undefined"],
+    ["iconPosition", hasLabel && hasIcon ? resolvedIconPosition : "undefined"],
+    ["aria-label", hasLabel ? "optional" : args.children],
     ["type", buttonContract.defaults.type]
   ];
 
@@ -317,17 +390,41 @@ function ContractPanel({ args }: { args: ButtonStoryArgs }) {
     <div
       style={{
         display: "grid",
-        gap: "var(--mare-space-4)",
-        gridTemplateColumns: "minmax(220px, max-content) minmax(280px, 1fr)"
+        alignItems: "start",
+        gap: "var(--mare-space-6)",
+        gridTemplateColumns: "minmax(240px, 0.7fr) minmax(320px, 1fr)"
       }}
     >
-      <div>
+      <div
+        style={{
+          alignItems: "center",
+          background: "var(--mare-color-surface-muted)",
+          border: "1px solid var(--mare-color-border)",
+          borderRadius: "var(--mare-radius-md)",
+          display: "flex",
+          minHeight: "180px",
+          justifyContent: "center",
+          padding: "var(--mare-space-6)"
+        }}
+      >
         <StoryButton {...args} />
       </div>
       <div>
-        <h3 style={{ fontSize: "1rem", margin: "0 0 var(--mare-space-2)" }}>
+        <h3
+          style={{
+            ...headingStyle,
+            fontSize: "1.1rem",
+            marginBottom: "var(--mare-space-2)"
+          }}
+        >
           Current contract
         </h3>
+        <p style={{ ...bodyTextStyle, marginBottom: "var(--mare-space-3)" }}>
+          Storybook exposes the Figma slot model as a documentation control. The
+          React API stays simple: label content is passed through{" "}
+          <code>children</code>, icons through <code>icon</code>, and placement
+          through <code>iconPosition</code>.
+        </p>
         <Table>
           <tbody>
             {resolvedProps.map(([name, value]) => (
@@ -347,134 +444,109 @@ function ContractPanel({ args }: { args: ButtonStoryArgs }) {
   );
 }
 
-function OverviewPage() {
-  return (
-    <Layout>
-      <h1 style={{ fontSize: "2rem", margin: 0 }}>Button</h1>
-      <p style={{ color: "var(--mare-color-text-muted)", marginTop: "0.5rem" }}>
-        Button triggers an action on the current page, such as saving,
-        submitting, or deleting, while preserving a consistent interactive
-        target and visual hierarchy.
-      </p>
-
-      <Section title="Design guidelines">
-        <p> For more information about the Button component, including its design specifications and usage guidelines, visit the{" "} <a href="https://www.figma.com/design/BvFw7AfXAdkKDIwgaWhl4L/UI-Kit---MAR%C3%89?node-id=58-635" target="_blank" rel="noopener noreferrer" > MARÉ UI Kit in Figma </a> . </p>
-        </Section>
-
-      <Section title="Variants & States">
-        <p>
-          Implemented variants are <code>primary</code> and{" "}
-          <code>secondary</code>. Visual states follow Figma, while technical
-          state hooks come from React Aria with native CSS fallbacks where they
-          match.
-        </p>
-      </Section>
-
-      <Section title="Usage rules">
-        <ul>
-          <li>✅ To trigger an action on the current page (save, submit, delete).</li>
-          <li>✅ As the primary call to action in a form or dialog</li>
-          <li>✅ When the action changes application state</li>
-          <li>🚫 To navigate to another page — use a Link instead </li>
-          <li>🚫 As a decorative element or container</li>
-        </ul>
-      </Section>
-
-      <Section title="Edge cases">
-        <ul>
-          <li>Icon-only buttons require an accessible label.</li>
-          <li>Disabled actions need surrounding explanation.</li>
-          <li>
-            Loading is behaviorally reserved, but the spinner visual is not
-            defined in Figma yet.
-          </li>
-        </ul>
-      </Section>
-
-      <Section title="Usage example">
-        <pre
-          style={{
-            background: "var(--mare-color-surface-muted)",
-            borderRadius: "var(--mare-radius-md)",
-            margin: 0,
-            padding: "var(--mare-space-4)"
-          }}
-        >{`import { Button } from "@mare/design-system";
-
-export function SaveProfileAction() {
-  return <Button>Save changes</Button>;
-}`}</pre>
-      </Section>
-
-      <Section title="Accessibility">
-        <ul>
-          <li>Wraps React Aria Components Button.</li>
-          <li>Maps disabled to React Aria isDisabled.</li>
-          <li>Maps loading to React Aria isPending and aria-busy.</li>
-          <li>Uses data-focus-visible plus :focus-visible fallback.</li>
-        </ul>
-      </Section>
-
-      <Section title="Design tokens applied">
-        <p>
-          See the <strong>Tokens</strong> story for the complete token table and
-          contrast notes.
-        </p>
-      </Section>
-
-    </Layout>
-  );
-}
-
 function VariantsPage() {
   return (
     <Layout>
-      <h1 style={{ fontSize: "2rem", margin: 0 }}>Button variants</h1>
-      <p style={{ color: "var(--mare-color-text-muted)" }}>
-        Matrix of Figma variants and current implementation status.
+      <h1 style={{ ...headingStyle, fontSize: "2.5rem" }}>Button variants</h1>
+      <p style={bodyTextStyle}>
+        Button supports primary and secondary variants. Figma models the inner
+        content with slots: label, icon-label, label-icon, and icon.
       </p>
 
-      <div style={{ display: "flex", gap: "var(--mare-space-4)", margin: "1.5rem 0" }}>
-        <Button>Label</Button>
-        <Button variant="secondary">Label</Button>
-        <Button disabled>Label</Button>
-        <Button disabled variant="secondary">
-          Label
-        </Button>
-      </div>
-
-      <Table>
-        <thead>
-          <tr>
-            <Th>Variant</Th>
-            <Th>State</Th>
-            <Th>Figma node</Th>
-            <Th>Technical state</Th>
-            <Th>Implemented</Th>
-            <Th>Notes</Th>
-          </tr>
-        </thead>
-        <tbody>
-          {variants.map((row) => (
-            <tr key={`${row.variant}-${row.state}`}>
-              <Td>
-                <code>{row.variant}</code>
-              </Td>
-              <Td>
-                <code>{row.state}</code>
-              </Td>
-              <Td>
-                <code>{row.figmaNode}</code>
-              </Td>
-              <Td>
-                <code>{row.technicalState}</code>
-              </Td>
-              <Td>{row.implemented}</Td>
-              <Td>{row.notes}</Td>
-            </tr>
+      <Section title="Content slots">
+        <div
+          style={{
+            display: "grid",
+            gap: "var(--mare-space-6)",
+            gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))"
+          }}
+        >
+          {buttonContract.variants.map((variant) => (
+            <div key={variant}>
+              <h3
+                style={{
+                  ...headingStyle,
+                  fontSize: "1rem",
+                  marginBottom: "var(--mare-space-4)",
+                  textTransform: "capitalize"
+                }}
+              >
+                {variant}
+              </h3>
+              <div
+                style={{
+                  display: "grid",
+                  gap: "var(--mare-space-4)"
+                }}
+              >
+                {contentKinds.map((content) => (
+                  <div
+                    key={`${variant}-${content.kind}`}
+                    style={{
+                      alignItems: "center",
+                      display: "grid",
+                      gap: "var(--mare-space-4)",
+                      gridTemplateColumns: "minmax(128px, max-content) 1fr"
+                    }}
+                  >
+                    <StoryButton
+                      {...{
+                        ...defaultArgs,
+                        children: content.label,
+                        contentKind: content.kind,
+                        variant
+                      }}
+                    />
+                    <div>
+                      <code>
+                        {variant}/{content.kind}
+                      </code>
+                      <p style={{ ...bodyTextStyle, fontSize: "0.875rem", marginTop: "var(--mare-space-1)" }}>
+                        {content.description}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           ))}
-        </tbody>
-      </Table>
+        </div>
+      </Section>
+
+      <Section title="States">
+        <Table>
+          <thead>
+            <tr>
+              <Th>Variant</Th>
+              <Th>State</Th>
+              <Th>Figma node</Th>
+              <Th>Technical state</Th>
+              <Th>Implemented</Th>
+              <Th>Notes</Th>
+            </tr>
+          </thead>
+          <tbody>
+            {variants.map((row) => (
+              <tr key={`${row.variant}-${row.state}`}>
+                <Td>
+                  <code>{row.variant}</code>
+                </Td>
+                <Td>
+                  <code>{row.state}</code>
+                </Td>
+                <Td>
+                  <code>{row.figmaNode}</code>
+                </Td>
+                <Td>
+                  <code>{row.technicalState}</code>
+                </Td>
+                <Td>{row.implemented}</Td>
+                <Td>{row.notes}</Td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      </Section>
     </Layout>
   );
 }
@@ -482,8 +554,8 @@ function VariantsPage() {
 function TokensPage() {
   return (
     <Layout>
-      <h1 style={{ fontSize: "2rem", margin: 0 }}>Button tokens</h1>
-      <p style={{ color: "var(--mare-color-text-muted)" }}>
+      <h1 style={{ ...headingStyle, fontSize: "2.5rem" }}>Button tokens</h1>
+      <p style={bodyTextStyle}>
         Tokens applied from Figma specs. Values must not be changed from
         Storybook without updating the Figma source of truth.
       </p>
@@ -583,7 +655,14 @@ const meta: Meta<typeof StoryButton> = {
   argTypes: {
     children: {
       control: "text",
-      description: "Visible button label."
+      description:
+        "Visible button label, or accessible label when contentKind is icon."
+    },
+    contentKind: {
+      control: "select",
+      options: buttonContract.contentKinds,
+      description:
+        "Storybook documentation control that mirrors the Figma slot compositions."
     },
     variant: {
       control: "inline-radio",
@@ -603,14 +682,11 @@ const meta: Meta<typeof StoryButton> = {
       control: "text",
       description: "Optional visible label while loading."
     },
-    showIcon: {
-      control: "boolean",
-      description: "Storybook-only control used to exercise the icon prop."
-    },
     iconPosition: {
       control: "inline-radio",
       options: ["start", "end"],
-      description: "Position of the optional icon when a label exists."
+      description:
+        "Position of the optional icon when contentKind is icon-label. label-icon always resolves to end."
     }
   },
   args: defaultArgs,
@@ -621,31 +697,14 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const Overview: Story = {
-  render: () => <OverviewPage />,
-  parameters: {
-    design: {
-      type: "figma",
-      url: figmaButtonNodes.specs
-    },
-    controls: {
-      disable: true
-    },
-    docs: {
-      description: {
-        story:
-          "Figma-aligned component overview. Use Playground to inspect the React contract and prop mapping."
-      }
-    }
-  }
-};
-
 export const Playground: Story = {
   render: (args) => (
     <Layout>
-      <h1 style={{ fontSize: "2rem", margin: 0 }}>Button playground</h1>
-      <p style={{ color: "var(--mare-color-text-muted)" }}>
-        Use Storybook controls to inspect the public props and current contract.
+      <h1 style={{ ...headingStyle, fontSize: "2.5rem" }}>Button playground</h1>
+      <p style={bodyTextStyle}>
+        Use controls to test the React API against the Figma slot model. The
+        component uses React Aria Button underneath, so interaction states come
+        from accessible technical attributes.
       </p>
       <ContractPanel args={{ ...defaultArgs, ...args }} />
     </Layout>
@@ -658,7 +717,7 @@ export const Playground: Story = {
     docs: {
       description: {
         story:
-          "Interactive playground for the current Button API. Controls reflect implemented props and a Storybook-only icon toggle."
+          "Interactive playground for the current Button API. `contentKind` mirrors Figma slots while the real component API stays based on children, icon, and iconPosition."
       }
     }
   }
@@ -669,7 +728,7 @@ export const Variants: Story = {
   parameters: {
     design: {
       type: "figma",
-      url: figmaButtonNodes.componentSet
+      url: figmaButtonNodes.slots
     },
     controls: {
       disable: true
