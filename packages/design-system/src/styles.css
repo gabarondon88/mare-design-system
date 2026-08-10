@@ -151,3 +151,95 @@
   border-color: var(--mare-alias-interactive-disabled-bg);
   color: var(--mare-alias-interactive-disabled-text);
 }
+
+.mare-tabs {
+  display: inline-flex;
+  flex-direction: column;
+}
+
+.mare-tabs__list {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  overflow-x: auto;
+}
+
+.mare-tabs__tab {
+  align-items: center;
+  appearance: none;
+  background: transparent;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  color: var(--mare-color-text-muted);
+  cursor: pointer;
+  display: inline-flex;
+  font-family: var(--mare-font-family);
+  font-size: var(--mare-font-size-md);
+  font-weight: 400;
+  justify-content: center;
+  line-height: var(--mare-line-height-md);
+  min-height: 2.5rem;
+  overflow: hidden;
+  padding: 0.625rem var(--mare-space-3);
+  position: relative;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.mare-tabs__tab::after {
+  background: #5bbead;
+  content: "";
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+}
+
+.mare-tabs__tab[data-selected] {
+  border-bottom-color: var(--mare-alias-primary-bg-base);
+  color: var(--mare-alias-primary-text-on-subtle);
+}
+
+.mare-tabs__tab[data-hovered]:not([data-disabled])::after,
+.mare-tabs__tab:hover:not([data-disabled])::after {
+  opacity: var(--mare-opacity-state-hover);
+}
+
+.mare-tabs__tab:focus {
+  outline: none;
+}
+
+.mare-tabs__tab[data-focus-visible],
+.mare-tabs__tab:focus-visible {
+  outline: var(--mare-button-focus-stroke) solid var(--mare-color-text);
+  outline-offset: 2px;
+}
+
+.mare-tabs__tab[data-disabled] {
+  color: var(--mare-alias-interactive-disabled-text);
+  cursor: not-allowed;
+}
+
+.mare-tabs__label {
+  overflow: hidden;
+  position: relative;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  z-index: 1;
+}
+
+.mare-tabs__panel {
+  color: var(--mare-color-text);
+  font-family: var(--mare-font-family);
+  margin-top: var(--mare-space-4);
+}
+
+.mare-tabs__panel:focus {
+  outline: none;
+}
+
+.mare-tabs__panel[data-focus-visible],
+.mare-tabs__panel:focus-visible {
+  outline: var(--mare-button-focus-stroke) solid var(--mare-color-text);
+  outline-offset: 2px;
+}
