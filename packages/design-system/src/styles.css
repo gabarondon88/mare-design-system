@@ -14,6 +14,17 @@
   --mare-alias-interactive-state-layer-base: #707d81;
   --mare-alias-interactive-disabled-bg: #d7e0e3;
   --mare-alias-interactive-disabled-text: #707d81;
+  --mare-alias-text-base: #111a1d;
+  --mare-alias-text-muted: #707d81;
+  --mare-alias-text-disabled: #a8b3b7;
+  --mare-alias-border-default: #707d81;
+  --mare-alias-border-focus: #02957e;
+  --mare-alias-border-error: #c92c39;
+  --mare-alias-border-success: #07c586;
+  --mare-alias-border-disabled: #d7e0e3;
+  --mare-alias-border-strong: #111a1d;
+  --mare-alias-bg-subtle: #f3f8fa;
+  --mare-alias-bg-disabled: #d7e0e3;
   --mare-opacity-state-hover: 0.18;
   --mare-opacity-state-pressed: 0.28;
   --mare-radius-sm: 4px;
@@ -34,6 +45,11 @@
   --mare-button-icon-size: 1rem;
   --mare-button-focus-gap: 3px;
   --mare-button-focus-stroke: 2px;
+  --mare-input-height: 2.5rem;
+  --mare-input-padding-x: 0.75rem;
+  --mare-input-padding-y: 1rem;
+  --mare-input-gap: 0.5rem;
+  --mare-input-radius: 4px;
 }
 
 .mare-theme {
@@ -150,6 +166,101 @@
 .mare-button--secondary:disabled {
   border-color: var(--mare-alias-interactive-disabled-bg);
   color: var(--mare-alias-interactive-disabled-text);
+}
+
+.mare-input {
+  color: var(--mare-alias-text-base);
+  display: flex;
+  flex-direction: column;
+  font-family: var(--mare-font-family);
+  gap: var(--mare-input-gap);
+  position: relative;
+  width: 100%;
+}
+
+.mare-input__label {
+  color: var(--mare-alias-text-base);
+  font-size: var(--mare-font-size-md);
+  font-weight: 400;
+  line-height: var(--mare-line-height-md);
+}
+
+.mare-input__field {
+  appearance: none;
+  background: var(--mare-color-surface);
+  border: 1px solid var(--mare-alias-border-default);
+  border-radius: var(--mare-input-radius);
+  box-sizing: border-box;
+  color: var(--mare-alias-text-base);
+  font-family: var(--mare-font-family);
+  font-size: var(--mare-font-size-md);
+  font-weight: 400;
+  height: var(--mare-input-height);
+  line-height: var(--mare-line-height-md);
+  min-width: 0;
+  padding: var(--mare-input-padding-y) var(--mare-input-padding-x);
+  width: 100%;
+}
+
+.mare-input__field::placeholder {
+  color: var(--mare-alias-text-muted);
+  opacity: 1;
+}
+
+.mare-input__field:focus {
+  outline: none;
+}
+
+.mare-input[data-focused] .mare-input__field {
+  background: var(--mare-alias-bg-subtle);
+  border-color: var(--mare-alias-border-focus);
+  border-bottom-width: 2px;
+}
+
+.mare-input[data-state="filled"] .mare-input__field {
+  border-color: var(--mare-alias-border-focus);
+  border-bottom-width: 2px;
+}
+
+.mare-input[data-invalid] .mare-input__field,
+.mare-input[data-state="error"] .mare-input__field {
+  border-color: var(--mare-alias-border-error);
+  border-bottom-width: 2px;
+}
+
+.mare-input[data-state="success"] .mare-input__field {
+  border-color: var(--mare-alias-border-success);
+  border-bottom-width: 2px;
+}
+
+.mare-input[data-disabled] .mare-input__field,
+.mare-input[data-state="disabled"] .mare-input__field {
+  background: var(--mare-alias-bg-disabled);
+  border-color: var(--mare-alias-border-disabled);
+  color: var(--mare-alias-text-disabled);
+  cursor: not-allowed;
+}
+
+.mare-input[data-disabled] .mare-input__field::placeholder,
+.mare-input[data-state="disabled"] .mare-input__field::placeholder {
+  color: var(--mare-alias-text-disabled);
+}
+
+.mare-input[data-focus-visible]::after,
+.mare-input:has(.mare-input__field:focus-visible)::after {
+  border: var(--mare-button-focus-stroke) solid var(--mare-alias-border-strong);
+  border-radius: 0;
+  content: "";
+  inset: -2px;
+  pointer-events: none;
+  position: absolute;
+}
+
+.mare-input__supportive-text {
+  color: var(--mare-alias-text-muted);
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.125rem;
 }
 
 .mare-tabs {
