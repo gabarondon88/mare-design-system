@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import type { CSSProperties, ReactNode } from "react";
+import { useEffect, useState } from "react";
 
 import { Input, MareProvider, inputContract } from "@mare/design-system";
 
@@ -188,6 +189,177 @@ function StoryInput(args: InputStoryArgs) {
         value={value}
         onChange={() => undefined}
       />
+    </div>
+  );
+}
+
+function PlaygroundPreview(args: InputStoryArgs) {
+  const [label, setLabel] = useState(args.label);
+  const [placeholder, setPlaceholder] = useState(args.placeholder);
+  const [showLabel, setShowLabel] = useState(args.showLabel);
+  const [showSupportiveText, setShowSupportiveText] = useState(
+    args.showSupportiveText
+  );
+  const [state, setState] = useState<InputStoryArgs["state"]>(args.state);
+  const [supportiveText, setSupportiveText] = useState(args.supportiveText);
+  const [value, setValue] = useState(args.value);
+
+  useEffect(() => {
+    setLabel(args.label);
+    setPlaceholder(args.placeholder);
+    setShowLabel(args.showLabel);
+    setShowSupportiveText(args.showSupportiveText);
+    setState(args.state);
+    setSupportiveText(args.supportiveText);
+    setValue(args.value);
+  }, [
+    args.label,
+    args.placeholder,
+    args.showLabel,
+    args.showSupportiveText,
+    args.state,
+    args.supportiveText,
+    args.value
+  ]);
+
+  const visibleLabel = showLabel ? label : undefined;
+  const visibleSupportiveText = showSupportiveText ? supportiveText : undefined;
+
+  return (
+    <div
+      style={{
+        alignItems: "start",
+        display: "grid",
+        gap: "var(--mare-space-6)",
+        gridTemplateColumns: "minmax(240px, 320px) minmax(260px, 1fr)"
+      }}
+    >
+      <div
+        style={{
+          background: "var(--mare-color-surface-muted)",
+          border: "1px solid var(--mare-color-border)",
+          borderRadius: "var(--mare-radius-md)",
+          padding: "var(--mare-space-6)"
+        }}
+      >
+        <Input
+          aria-label={visibleLabel ? undefined : args.ariaLabel}
+          label={visibleLabel}
+          onChange={setValue}
+          placeholder={placeholder}
+          state={state}
+          supportiveText={visibleSupportiveText}
+          value={value}
+        />
+      </div>
+
+      <div
+        style={{
+          display: "grid",
+          gap: "var(--mare-space-4)"
+        }}
+      >
+        <label style={{ color: "var(--mare-color-text)" }}>
+          <span style={{ display: "block", marginBottom: "var(--mare-space-2)" }}>
+            State
+          </span>
+          <select
+            onChange={(event) =>
+              setState(event.currentTarget.value as InputStoryArgs["state"])
+            }
+            style={{
+              border: "1px solid var(--mare-color-border)",
+              borderRadius: "var(--mare-radius-sm)",
+              font: "inherit",
+              padding: "var(--mare-space-2)",
+              width: "100%"
+            }}
+            value={state}
+          >
+            {inputContract.visualStates.map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
+          </select>
+        </label>
+
+        <label style={{ color: "var(--mare-color-text)" }}>
+          <input
+            checked={showLabel}
+            onChange={(event) => setShowLabel(event.currentTarget.checked)}
+            type="checkbox"
+          />{" "}
+          Show label
+        </label>
+
+        <label style={{ color: "var(--mare-color-text)" }}>
+          <input
+            checked={showSupportiveText}
+            onChange={(event) =>
+              setShowSupportiveText(event.currentTarget.checked)
+            }
+            type="checkbox"
+          />{" "}
+          Show supportive text
+        </label>
+
+        <label style={{ color: "var(--mare-color-text)" }}>
+          <span style={{ display: "block", marginBottom: "var(--mare-space-2)" }}>
+            Label
+          </span>
+          <input
+            onChange={(event) => setLabel(event.currentTarget.value)}
+            style={{
+              border: "1px solid var(--mare-color-border)",
+              borderRadius: "var(--mare-radius-sm)",
+              font: "inherit",
+              padding: "var(--mare-space-2)",
+              width: "100%"
+            }}
+            value={label}
+          />
+        </label>
+
+        <label style={{ color: "var(--mare-color-text)" }}>
+          <span style={{ display: "block", marginBottom: "var(--mare-space-2)" }}>
+            Supportive text
+          </span>
+          <input
+            onChange={(event) => setSupportiveText(event.currentTarget.value)}
+            style={{
+              border: "1px solid var(--mare-color-border)",
+              borderRadius: "var(--mare-radius-sm)",
+              font: "inherit",
+              padding: "var(--mare-space-2)",
+              width: "100%"
+            }}
+            value={supportiveText}
+          />
+        </label>
+
+        <label style={{ color: "var(--mare-color-text)" }}>
+          <span style={{ display: "block", marginBottom: "var(--mare-space-2)" }}>
+            Placeholder
+          </span>
+          <input
+            onChange={(event) => setPlaceholder(event.currentTarget.value)}
+            style={{
+              border: "1px solid var(--mare-color-border)",
+              borderRadius: "var(--mare-radius-sm)",
+              font: "inherit",
+              padding: "var(--mare-space-2)",
+              width: "100%"
+            }}
+            value={placeholder}
+          />
+        </label>
+
+        <p style={bodyTextStyle}>
+          Typing in the preview updates the component value. When state is{" "}
+          <code>default</code>, a non-empty value uses the filled visual style.
+        </p>
+      </div>
     </div>
   );
 }
@@ -438,11 +610,11 @@ export const Playground: Story = {
     <Layout>
       <h1 style={{ ...headingStyle, fontSize: "2.5rem" }}>Input playground</h1>
       <p style={bodyTextStyle}>
-        Use controls to test label visibility, supportive text, value, and
-        validation state against the Figma contract.
+        Use the controls in this canvas to test label visibility, supportive
+        text, value, and validation state against the Figma contract.
       </p>
       <Section title="Preview">
-        <StoryInput {...defaultArgs} {...args} />
+        <PlaygroundPreview {...defaultArgs} {...args} />
       </Section>
     </Layout>
   )
