@@ -222,6 +222,11 @@
   border-bottom-width: 2px;
 }
 
+.mare-input[data-state="default"] .mare-input__field:not(:placeholder-shown) {
+  border-color: var(--mare-alias-border-focus);
+  border-bottom-width: 2px;
+}
+
 .mare-input[data-invalid] .mare-input__field,
 .mare-input[data-state="error"] .mare-input__field {
   border-color: var(--mare-alias-border-error);
@@ -246,8 +251,7 @@
   color: var(--mare-alias-text-disabled);
 }
 
-.mare-input[data-focus-visible]::after,
-.mare-input:has(.mare-input__field:focus-visible)::after {
+.mare-input[data-focus-visible]::after {
   border: var(--mare-button-focus-stroke) solid var(--mare-alias-border-strong);
   border-radius: 0;
   content: "";
