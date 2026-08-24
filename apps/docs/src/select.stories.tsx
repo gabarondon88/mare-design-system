@@ -188,23 +188,21 @@ function TokenSwatch({ value }: { value: string }) {
 
 function InfoIcon() {
   return (
-    <span
+    <svg
       aria-hidden="true"
-      style={{
-        alignItems: "center",
-        border: "1.5px solid currentColor",
-        borderRadius: "999px",
-        display: "inline-flex",
-        fontSize: "0.6875rem",
-        fontWeight: 700,
-        height: "1rem",
-        justifyContent: "center",
-        lineHeight: 1,
-        width: "1rem"
-      }}
+      fill="none"
+      focusable="false"
+      viewBox="0 0 16 16"
     >
-      i
-    </span>
+      <circle cx="8" cy="8" r="6.25" stroke="currentColor" strokeWidth="1.5" />
+      <path
+        d="M8 7.25v4"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeWidth="1.5"
+      />
+      <circle cx="8" cy="4.75" fill="currentColor" r="0.75" />
+    </svg>
   );
 }
 

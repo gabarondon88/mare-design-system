@@ -47,7 +47,12 @@ export function Select<T extends object>(props: SelectProps<T>) {
           {supportiveText}
         </AriaText>
       ) : null}
-      <AriaPopover className="mare-select__popover">
+      <AriaPopover
+        className="mare-select__popover"
+        offset={0}
+        placement="bottom start"
+        shouldFlip={false}
+      >
         <AriaListBox className="mare-select__listbox">{children}</AriaListBox>
       </AriaPopover>
     </AriaSelect>
