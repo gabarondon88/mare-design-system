@@ -251,12 +251,13 @@ function InlineIcon() {
 function StoryButton({
   children,
   contentKind,
+  iconPosition,
   ...args
 }: ButtonStoryArgs) {
   const hasIcon = contentKind !== "label";
   const hasLabel = contentKind !== "icon";
   const resolvedIconPosition =
-    contentKind === "label-icon" ? "end" : args.iconPosition;
+    contentKind === "label-icon" ? "end" : iconPosition;
 
   if (!hasLabel) {
     return (
@@ -733,7 +734,7 @@ const meta: Meta<typeof StoryButton> = {
         component:
           "Figma-aligned Button documentation. Source: UI Kit - MARE, page `58:635`, component set `569:370`, specs `702:4078`, usage guide `703:1445`."
       },
-      page: ButtonDocsPage
+      page: () => <ButtonDocsPage />
     },
     layout: "fullscreen"
   },

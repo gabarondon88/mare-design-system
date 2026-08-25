@@ -387,23 +387,6 @@ function InputDocsPage() {
         </p>
       </Section>
 
-      <Section title="React anatomy">
-        <pre
-          style={{
-            background: "var(--mare-color-surface-muted)",
-            borderRadius: "var(--mare-radius-md)",
-            color: "var(--mare-color-text)",
-            margin: 0,
-            overflowX: "auto",
-            padding: "var(--mare-space-4)"
-          }}
-        >{`Input
-├── ReactAriaTextField
-│   ├── Label
-│   ├── Input
-│   └── Text slot="description" | "errorMessage"`}</pre>
-      </Section>
-
       <Section title="Behavior">
         <p style={bodyTextStyle}>
           Figma represents visual states through <code>state</code>,{" "}
@@ -558,7 +541,7 @@ const meta: Meta<typeof StoryInput> = {
       url: figmaInputNodes.component
     },
     docs: {
-      page: InputDocsPage
+      page: () => <InputDocsPage />
     },
     layout: "fullscreen"
   },

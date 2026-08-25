@@ -475,28 +475,6 @@ function SelectDocsPage() {
         </p>
       </Section>
 
-      <Section title="React anatomy">
-        <pre
-          style={{
-            background: "var(--mare-color-surface-muted)",
-            borderRadius: "var(--mare-radius-md)",
-            color: "var(--mare-color-text)",
-            margin: 0,
-            overflowX: "auto",
-            padding: "var(--mare-space-4)"
-          }}
-        >{`Select
-├── ReactAriaSelect
-│   ├── Label
-│   ├── Button
-│   │   ├── SelectValue
-│   │   └── chevron
-│   ├── Text slot="description"
-│   └── Popover
-│       └── ListBox
-│           └── SelectItem[]`}</pre>
-      </Section>
-
       <Section title="Behavior">
         <p style={bodyTextStyle}>
           Figma exposes <code>isOpen</code>, <code>showLabel</code>, and{" "}
@@ -649,7 +627,7 @@ const meta: Meta<typeof StorySelect> = {
       url: figmaSelectNodes.component
     },
     docs: {
-      page: SelectDocsPage
+      page: () => <SelectDocsPage />
     },
     layout: "fullscreen"
   },

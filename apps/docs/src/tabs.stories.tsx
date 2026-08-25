@@ -232,26 +232,6 @@ function TabsDocsPage() {
         </p>
       </Section>
 
-      <Section title="React anatomy">
-        <pre
-          style={{
-            background: "var(--mare-color-surface-muted)",
-            borderRadius: "var(--mare-radius-md)",
-            color: "var(--mare-color-text)",
-            margin: 0,
-            overflowX: "auto",
-            padding: "var(--mare-space-4)"
-          }}
-        >{`Tabs
-├── TabList aria-label="..."
-│   ├── Tab id="overview"
-│   ├── Tab id="details"
-│   └── Tab id="reviews"
-├── TabPanel id="overview"
-├── TabPanel id="details"
-└── TabPanel id="reviews"`}</pre>
-      </Section>
-
       <Section title="Behavior">
         <p style={bodyTextStyle}>
           In Figma, selected state is represented by{" "}
@@ -410,7 +390,7 @@ const meta: Meta<typeof StoryTabs> = {
       url: figmaTabsNodes.component
     },
     docs: {
-      page: TabsDocsPage
+      page: () => <TabsDocsPage />
     },
     layout: "fullscreen"
   },
